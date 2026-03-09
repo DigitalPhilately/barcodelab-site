@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Feedback | Barcode Lab</title>
+  <meta name="description" content="Send feedback for Barcode Lab."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/styles.css"/>
+</head>
+<body>
+  <div class="container">
+    <header class="topbar">
+      <a class="brand" href="/">
+        <div class="mark" aria-hidden="true"></div>
+        <div>
+          <strong>Barcode Lab</strong>
+          <span>Industrial test barcode tooling</span>
+        </div>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="/privacy/">Privacy</a>
+        <a href="/support/">Support</a>
+        <a href="/feedback/">Feedback</a>
+      </nav>
+    </header>
+
+    <main class="panel">
+      <h1 class="h1">Feedback</h1>
+      <p class="lede">
+        Use this page to report defects, request features, or share payload examples.
+        Messages are sent by email to <a href="mailto:support@barcodelab.app">support@barcodelab.app</a>.
+      </p>
+
+      <div class="form">
+        <div>
+          <div class="label">Topic</div>
+          <select class="input" id="topic">
+            <option value="Bug report">Bug report</option>
+            <option value="Feature request">Feature request</option>
+            <option value="TestFlight feedback">TestFlight feedback</option>
+            <option value="General">General</option>
+          </select>
+        </div>
+
+        <div>
+          <div class="label">App version</div>
+          <input class="input mono" id="version" placeholder="e.g. 0.6.3+19"/>
+        </div>
+
+        <div>
+          <div class="label">Payload example (optional)</div>
+          <textarea class="input mono" id="payload" placeholder="Paste barcode payload here"></textarea>
+          <p class="note">Please remove personal or live operational data before sending.</p>
+        </div>
+
+        <div>
+          <div class="label">Message</div>
+          <textarea class="input" id="message" placeholder="Describe expected vs actual behavior"></textarea>
+        </div>
+
+        <div class="btns">
+          <a class="btn primary" href="#" id="send">Open Email Draft</a>
+          <a class="btn" href="mailto:support@barcodelab.app?subject=Barcode%20Lab%20Feedback">Email Directly</a>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div>© <span id="y"></span> Barcode Lab</div>
+      <div>
+        <a href="/">Home</a> ·
+        <a href="/privacy/">Privacy</a> ·
+        <a href="/support/">Support</a>
+      </div>
+    </footer>
+  </div>
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+    const enc = (s) => encodeURIComponent(s || "");
+    document.getElementById("send").addEventListener("click", (e) => {
+      e.preventDefault();
+      const topic = document.getElementById("topic").value;
+      const version = document.getElementById("version").value.trim();
+      const payload = document.getElementById("payload").value.trim();
+      const message = document.getElementById("message").value.trim();
+      const subject = `Barcode Lab - ${topic}`;
+      let body = "";
+      if (version) body += `App version: ${version}\n`;
+      if (payload) body += `Payload example:\n${payload}\n\n`;
+      body += `Message:\n${message || "(no message provided)"}\n`;
+      const href = `mailto:support@barcodelab.app?subject=${enc(subject)}&body=${enc(body)}`;
+      window.location.href = href;
+    });
+  </script>
+</body>
+</html>
